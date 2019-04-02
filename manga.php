@@ -28,7 +28,7 @@
                 <a class="nav-link" href="#">Portfolio</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="manga.html">Manga <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="manga.php">Manga <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Calorie Counter</a>
