@@ -2,11 +2,50 @@ body {
     padding-top: 3.5rem;
 }
 
+/*For index.html mostly*/
+
 .jumbotron {
-    background: url("../assets/manga.jpg") !important;
+    background-image: url("../assets/backgroundthree.jpg");
+    background-size: cover;
+    margin-bottom: 0;
+    color: white;
+    border-radius: 0;
 }
 
 .container {
-    margin-top: 25px;
+    margin-top: 0px;
     max-width: 1560px;
+}
+
+.card-group {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+#mainpage {
+    background-image: url("../assets/backgroundone.jpg");
+    background-size: cover;
+}
+
+/*For manga.php*/
+
+#tableformat {
+    padding-top: 5rem;
+}
+
+.plusminusbtn {
+    width: 40px;
+}
+
+.table td, .table>tbody>tr>th {
+    vertical-align: middle;
+}
+
+.table>thead>tr>th {
+    text-align: center;
+}
+
+#specalign {
+    vertical-align: middle;
+    text-align: center;
 }

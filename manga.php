@@ -54,39 +54,52 @@
     </nav>
 
     <main>
-        <div class="container">
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div id="tableformat">
+            <div class="container">
+                <table class="table table-striped table-sm table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width: 10%">#</th>
+                            <th style="width: 41%">Name</th>
+                            <th style="width: 5%">Progress</th>
+                            <th style="width: 3%">+</th>
+                            <th style="width: 3%">-</th>
+                            <th style="width: 5%">Score</th>
+                            <th style="width: 33%">Thoughts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td id="specalign">78/149</td>
+                            <td><button class="plusminusbtn">+</button></td>
+                            <td><button class="plusminusbtn">-</button></td>
+                            <td id="specalign">10</td>
+                            <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque veniam iure dolorem asperiores quasi non, dolorum deserunt sapiente expedita quisquam ducimus harum quae voluptas id, tempore nulla in praesentium quos?</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td id="specalign">4/80</td>
+                            <td><button class="plusminusbtn">+</button></td>
+                            <td><button class="plusminusbtn">-</button></td>
+                            <td id="specalign">7</td>
+                            <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque veniam iure dolorem asperiores quasi non, dolorum deserunt sapiente expedita quisquam ducimus harum quae voluptas id, tempore nulla in praesentium quos?</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td id="specalign">78/?</td>
+                            <td><button class="plusminusbtn">+</button></td>
+                            <td><button class="plusminusbtn">-</button></td>
+                            <td id="specalign">6</td>
+                            <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque veniam iure dolorem asperiores quasi non, dolorum deserunt sapiente expedita quisquam ducimus harum quae voluptas id, tempore nulla in praesentium quos?</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-
     </main>
 
     <hr>
