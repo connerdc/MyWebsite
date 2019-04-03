@@ -29,8 +29,18 @@ body {
 
 /*For manga.php*/
 
+#mangahd {
+    margin-top: 3rem;
+}
+
 #tableformat {
-    padding-top: 5rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+#editbtn {
+    text-align: center;
+    vertical-align: middle;
 }
 
 .plusminusbtn {

@@ -54,47 +54,61 @@
     </nav>
 
     <main>
+        <div id="mangahd" class="container">
+            <h1 class="display-2">My Manga List</h1>
+        </div>
+
+        <hr>
+
         <div id="tableformat">
             <div class="container">
                 <table class="table table-striped table-sm table-bordered">
                     <thead class="thead-dark">
                         <tr>
                             <th style="width: 10%">#</th>
-                            <th style="width: 41%">Name</th>
+                            <th style="width: 30%">Name</th>
+                            <th style="width: 6%">Link</th>
                             <th style="width: 5%">Progress</th>
                             <th style="width: 3%">+</th>
                             <th style="width: 3%">-</th>
                             <th style="width: 5%">Score</th>
                             <th style="width: 33%">Thoughts</th>
+                            <th style="width: 5%">Edit</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row">1</th>
                             <td>Mark</td>
+                            <td><a href="#">Link</a></td>
                             <td id="specalign">78/149</td>
                             <td><button class="plusminusbtn">+</button></td>
                             <td><button class="plusminusbtn">-</button></td>
                             <td id="specalign">10</td>
-                            <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque veniam iure dolorem asperiores quasi non, dolorum deserunt sapiente expedita quisquam ducimus harum quae voluptas id, tempore nulla in praesentium quos?</td>
+                            <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
+                            <td id="editbtn"><button>Edit</button></td>
                         </tr>
                         <tr>
                             <th scope="row">2</th>
                             <td>Jacob</td>
+                            <td><a href="#">Link</a></td>
                             <td id="specalign">4/80</td>
                             <td><button class="plusminusbtn">+</button></td>
                             <td><button class="plusminusbtn">-</button></td>
                             <td id="specalign">7</td>
                             <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque veniam iure dolorem asperiores quasi non, dolorum deserunt sapiente expedita quisquam ducimus harum quae voluptas id, tempore nulla in praesentium quos?</td>
+                            <td id="editbtn"><button>Edit</button></td>
                         </tr>
                         <tr>
                             <th scope="row">3</th>
                             <td>Larry</td>
+                            <td><a href="#">Link</a></td>
                             <td id="specalign">78/?</td>
                             <td><button class="plusminusbtn">+</button></td>
                             <td><button class="plusminusbtn">-</button></td>
                             <td id="specalign">6</td>
-                            <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque veniam iure dolorem asperiores quasi non, dolorum deserunt sapiente expedita quisquam ducimus harum quae voluptas id, tempore nulla in praesentium quos?</td>
+                            <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque veniam iure dolorem asperiores quasi non?</td>
+                            <td id="editbtn"><button>Edit</button></td>
                         </tr>
                     </tbody>
                 </table>
