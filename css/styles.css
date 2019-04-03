@@ -2,9 +2,9 @@ body {
     padding-top: 3.5rem;
 }
 
-/*.jumbotron {
-    background-image: url("../assets/manga.jpg");
-}*/
+.jumbotron {
+    background: url("../assets/manga.jpg") !important;
+}
 
 .container {
     margin-top: 25px;
