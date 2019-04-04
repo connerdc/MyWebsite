@@ -1,15 +1,75 @@
 <!doctype html>
-
 <html lang="en">
+<?php
+    include 'php/db_connection.php';
+    $conn = OpenCon();
+?>
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 
-  <title>Conner's Webpage</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+    <title>Conner's Webpage</title>
 
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+
+
+            $("form").submit(function (event) {
+                event.preventDefault();    
+                $.ajax({
+                    type: "POST",
+                    url: "php/add_manga.php",
+                    data: {
+                        name: $("#manga-name").val(),
+                        link: $("#manga-link").val(),
+                        completedCptr: $("#manga-completed").val(),
+                        totalCptr: $("#manga-total").val(),
+                        score: $("#manga-score").val(),
+                        thoughts: $("#manga-thoughts").val()
+                    },
+                    success: function (response) {
+                        $(function () {
+                            $('#modal').modal('toggle');
+                        });
+                        alert(response);
+                    },
+                    error: function(response) {
+                        alert(response);
+                    }  
+                });
+            });
+            /*
+            $("form").submit(function (event) { 
+                event.preventDefault();
+
+                var name = $("#manga-name").val();
+                var link = $("#manga-link").val();
+                var completedCptr = $("#manga-completed").val();
+                var totalCptr = $("#manga-total").val();
+                var score = $("#manga-score").val();
+                var thoughts = $("#manga-thoughts").val();
+                var submit = $("#manga-submit").val();
+
+                $.post("php/add_manga.php", {
+                    name: name,
+                    link: link,
+                    completedCptr: completedCptr,
+                    totalCptr: totalCptr,
+                    score: score,
+                    thoughts: thoughts,
+                    submit: submit 
+                });
+            });*/
+        });
+    </script>
 </head>
 
 <body>
@@ -60,8 +120,69 @@
 
         <hr>
 
-        <div id="tableformat">
+        <div id="contentformat">
             <div class="container">
+                <button type="button" id="newMangaBtn" class="btn btn-dark" data-toggle="modal" data-target=".bd-example-modal-lg">Add Manga</button>
+
+                <div id="modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Add Manga</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addform" method="post" action="php/add_manga.php">
+                                    <div class="form-group">
+                                        <label>Manga Name</label>
+                                        <input name="name" id="manga-name" type="name" class="form-control" placeholder="Enter name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Link to Manga</label>
+                                        <input name="link" id="manga-link" type="link" class="form-control" placeholder="Link">
+                                    </div>
+                                    <label>Chapters Read/Total Chapters</label>
+                                    <div class="row form-group">
+                                        <div class="col-2">
+                                            <input name="completedCptr" id="manga-completed" type="number" class="form-control" placeholder="0">
+                                        </div>
+                                        <p>/</p>
+                                        <div class="col-2">
+                                            <input name="totalCptr" id="manga-total" type="number" class="form-control" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-4">
+                                            <label>Score</label>
+                                            <select name="score" id="manga-score" class="form-control">
+                                                <option selected>Choose...</option>
+                                                <option value="10">10 (Masterpiece)</option>
+                                                <option value="9">9 (Amazing)</option>
+                                                <option value="8">8 (Great)</option>
+                                                <option value="7">7 (Good)</option>
+                                                <option value="6">6 (Decent)</option>
+                                                <option value="5">5 (Tolerable)</option>
+                                                <option value="4">4 (Dislike)</option>
+                                                <option value="3">3 (Bad)</option>
+                                                <option value="2">2 (Awful)</option>
+                                                <option value="1">1 (Dumpster Fire)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Thoughts</label>
+                                        <textarea name="thoughts" id="manga-thoughts" class="form-control" rows="5" id="comment"></textarea>
+                                    </div>
+                                    <hr>
+                                    <button id="manga-submit" type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <table class="table table-striped table-sm table-bordered">
                     <thead class="thead-dark">
                         <tr>
@@ -70,14 +191,31 @@
                             <th style="width: 6%">Link</th>
                             <th style="width: 5%">Progress</th>
                             <th style="width: 3%">+</th>
-                            <th style="width: 3%">-</th>
                             <th style="width: 5%">Score</th>
-                            <th style="width: 33%">Thoughts</th>
+                            <th style="width: 36%">Thoughts</th>
                             <th style="width: 5%">Edit</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <?php
+                            $sql = "SELECT * FROM manga";
+                            $result = mysqli_query($conn, $sql);
+
+                            if(mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr><th scope=\"row\">" . $row["mangaID"] . "</th>
+                                <td>" . $row["name"]. "</td>
+                                <td><a href=\"" . $row["link"] . "\">Link</a></td>
+                                <td id=\"specalign\">" . $row["completedCptr"] . "/" . $row["totalCptr"] . "</td>
+                                <td><button class=\"plusminusbtn\">+</button> </td>
+                                <td id=\"specalign\">" . $row["score"]. "</td>
+                                <td>" . $row["thoughts"]. "</td>
+                                <td id=\"editbtn\"><button>Edit</button>
+                                </tr>";
+                                }
+                            }
+                        ?>
+                        <!-- <tr>
                             <th scope="row">1</th>
                             <td>Mark</td>
                             <td><a href="#">Link</a></td>
@@ -86,30 +224,8 @@
                             <td><button class="plusminusbtn">-</button></td>
                             <td id="specalign">10</td>
                             <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-                            <td id="editbtn"><button>Edit</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td><a href="#">Link</a></td>
-                            <td id="specalign">4/80</td>
-                            <td><button class="plusminusbtn">+</button></td>
-                            <td><button class="plusminusbtn">-</button></td>
-                            <td id="specalign">7</td>
-                            <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque veniam iure dolorem asperiores quasi non, dolorum deserunt sapiente expedita quisquam ducimus harum quae voluptas id, tempore nulla in praesentium quos?</td>
-                            <td id="editbtn"><button>Edit</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td><a href="#">Link</a></td>
-                            <td id="specalign">78/?</td>
-                            <td><button class="plusminusbtn">+</button></td>
-                            <td><button class="plusminusbtn">-</button></td>
-                            <td id="specalign">6</td>
-                            <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque veniam iure dolorem asperiores quasi non?</td>
-                            <td id="editbtn"><button>Edit</button></td>
-                        </tr>
+                            <td id="editbtn"><button>Edit</button></td> 
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -121,10 +237,5 @@
     <footer class="container">
         <p>&copy; Company 2017-2019</p>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="js/bootstrap.js"></script>
 </body>
 </html>

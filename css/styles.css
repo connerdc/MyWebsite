@@ -35,14 +35,20 @@ body {
     margin-top: 3rem;
 }
 
-#tableformat {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+#contentformat {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 #editbtn {
     text-align: center;
     vertical-align: middle;
+}
+
+#newMangaBtn {
+    width: 10rem;
+    height: 3rem;
+    margin-bottom: 1rem;
 }
 
 .plusminusbtn {
