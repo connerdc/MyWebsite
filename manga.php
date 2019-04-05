@@ -20,7 +20,29 @@
 
     <script>
         $(document).ready(function () {
-
+            
+            $(".plusbutton").click(function (event) { 
+                event.preventDefault();
+                var buttonName = this.id;
+                var parse = buttonName.split("");
+                var number = parse[0];
+                var mangaID = parseInt(number);
+                $.ajax({
+                    type: "POST",
+                    url: "php/add_episode.php",
+                    data: {
+                        mangaID: mangaID
+                    },
+                    success: function (response ) {
+                        setTimeout(function(){// wait for 5 secs(2)
+                            location.reload(); // then reload the page.(3)
+                        }, 100); 
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }                    
+                });
+            });
 
             $("form").submit(function (event) {
                 event.preventDefault();    
@@ -200,18 +222,21 @@
                         <?php
                             $sql = "SELECT * FROM manga";
                             $result = mysqli_query($conn, $sql);
+                            $number = 1;
 
                             if(mysqli_num_rows($result) > 0) {
                                 while($row = mysqli_fetch_assoc($result)) {
-                                echo "<tr><th scope=\"row\">" . $row["mangaID"] . "</th>
-                                <td>" . $row["name"]. "</td>
-                                <td><a href=\"" . $row["link"] . "\">Link</a></td>
-                                <td id=\"specalign\">" . $row["completedCptr"] . "/" . $row["totalCptr"] . "</td>
-                                <td><button class=\"plusminusbtn\">+</button> </td>
-                                <td id=\"specalign\">" . $row["score"]. "</td>
-                                <td>" . $row["thoughts"]. "</td>
-                                <td id=\"editbtn\"><button>Edit</button>
-                                </tr>";
+                                    echo "<tr><th scope=\"row\">" . $row["mangaID"] . "</th>
+                                    <td>" . $row["name"]. "</td>
+                                    <td><a href=\"" . $row["link"] . "\">Link</a></td>
+                                    <td id=\"specalign\">" . $row["completedCptr"] . "/" . $row["totalCptr"] . "</td>
+                                    <td class=\"pluscol\"><button id=\"" . $number . "button\" class=\"plusbutton\">+</button> </td>
+                                    <td id=\"specalign\">" . $row["score"]. "</td>
+                                    <td>" . $row["thoughts"]. "</td>
+                                    <td id=\"editbtn\"><button>Edit</button>
+                                    </tr>";
+
+                                    $number = $number + 1;
                                 }
                             }
                         ?>

@@ -51,8 +51,12 @@ body {
     margin-bottom: 1rem;
 }
 
+.pluscol {
+    text-align: center;
+}
+
 .plusminusbtn {
-    width: 40px;
+    width: 40px !important;
 }
 
 .table td, .table>tbody>tr>th {
