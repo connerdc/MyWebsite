@@ -47,7 +47,19 @@
 
             $(".editbutton").click(function (event) { 
                 event.preventDefault();
-                
+                var buttonName = this.id;
+                var parse = buttonName.split("");
+                var number = parse[0];
+                var mangaID = parseInt(number);
+                $.ajax({
+                    type: "GET",
+                    url: "get_manga.php",
+                    data: { mangaID: mangaID },
+                    dataType: "json",
+                    success: function (response) {
+                        
+                    }
+                });
             });
 
             $("#editform").submit(function (event) {
