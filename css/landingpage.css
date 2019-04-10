@@ -1,0 +1,21 @@
+/*For index.html mostly*/
+
+.jumbotron {
+    background-image: url("../assets/backgroundthree.jpg");
+    background-size: cover;
+    margin-bottom: 0;
+    color: white;
+    border-radius: 0;
+    border-bottom: 2px solid white;
+    border-top: 2px solid white;
+    /*padding: 2rem 0.5rem 1rem 0.5rem;*/
+}
+
+.card-group {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+
+#mainpage {
+    background-color: #7a7f8f;
+}

@@ -1,73 +1,14 @@
+/*To be in every page*/
+
 body {
     padding-top: 3.5rem;
 }
 
-/*For index.html mostly*/
-
-.jumbotron {
-    background-image: url("../assets/backgroundthree.jpg");
-    background-size: cover;
-    margin-bottom: 0;
-    color: white;
-    border-radius: 0;
-    border-bottom: 5px solid white;
-    border-top: 5px solid white;
+.footer {
+    margin-top: 3rem;
 }
 
 .container {
     margin-top: 0px;
-    max-width: 1560px;
-}
-
-.card-group {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-
-#mainpage {
-    background-image: url("../assets/backgroundone.jpg");
-    background-size: cover;
-}
-
-/*For manga.php*/
-
-#mangahd {
-    margin-top: 3rem;
-}
-
-#contentformat {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-
-#editbtn {
-    text-align: center;
-    vertical-align: middle;
-}
-
-#newMangaBtn {
-    width: 10rem;
-    height: 3rem;
-    margin-bottom: 1rem;
-}
-
-.pluscol {
-    text-align: center;
-}
-
-.plusminusbtn {
-    width: 40px !important;
-}
-
-.table td, .table>tbody>tr>th {
-    vertical-align: middle;
-}
-
-.table>thead>tr>th {
-    text-align: center;
-}
-
-#specalign {
-    vertical-align: middle;
-    text-align: center;
+    max-width: 80%;
 }

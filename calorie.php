@@ -66,7 +66,7 @@
 
     <hr>
 
-    <footer class="container">
+    <footer class="container footer">
         <p>&copy; Company 2017-2019</p>
     </footer>
 </body>

@@ -11,6 +11,7 @@
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/manga.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
@@ -44,7 +45,39 @@
                 });
             });
 
-            $("form").submit(function (event) {
+            $(".editbutton").click(function (event) { 
+                event.preventDefault();
+                
+            });
+
+            $("#editform").submit(function (event) {
+                event.preventDefault();    
+                $.ajax({
+                    type: "POST",
+                    url: "php/edit_manga.php",
+                    data: {
+                        name: $("#manga-name").val(),
+                        link: $("#manga-link").val(),
+                        completedCptr: $("#manga-completed").val(),
+                        totalCptr: $("#manga-total").val(),
+                        score: $("#manga-score").val(),
+                        thoughts: $("#manga-thoughts").val()
+                    },
+                    success: function (response) {
+                        $(function () {
+                            $('#modal').modal('toggle');
+                        });
+                        setTimeout(function(){
+                            location.reload();
+                        }, 100);
+                    },
+                    error: function(response) {
+                        alert(response);
+                    }  
+                });
+            });
+
+            $("#addform").submit(function (event) {
                 event.preventDefault();    
                 $.ajax({
                     type: "POST",
@@ -61,7 +94,9 @@
                         $(function () {
                             $('#modal').modal('toggle');
                         });
-                        alert(response);
+                        setTimeout(function(){// wait for 5 secs(2)
+                            location.reload(); // then reload the page.(3)
+                        }, 100);
                     },
                     error: function(response) {
                         alert(response);
@@ -137,16 +172,16 @@
 
     <main>
         <div id="mangahd" class="container">
-            <h1 class="display-2">My Manga List</h1>
+            <h1 id="specialHeader" class="display-2">My Manga List</h1>
         </div>
 
-        <hr>
+        <hr class="listhr">
 
         <div id="contentformat">
             <div class="container">
-                <button type="button" id="newMangaBtn" class="btn btn-dark" data-toggle="modal" data-target=".bd-example-modal-lg">Add Manga</button>
+                <button type="button" id="newMangaBtn" class="btn btn-dark" data-toggle="modal" data-target=".newmanga">Add Manga</button>
 
-                <div id="modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                <div id="modal" class="modal fade newmanga" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -156,7 +191,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form id="addform" method="post" action="php/add_manga.php">
+                                <form id="editform" method="post" action="php/add_manga.php">
                                     <div class="form-group">
                                         <label>Manga Name</label>
                                         <input name="name" id="manga-name" type="name" class="form-control" placeholder="Enter name">
@@ -205,16 +240,76 @@
                     </div>
                 </div>
 
+                <div id="modal" class="modal fade editmanga" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Edit Manga</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addform" method="post" action="php/edit_manga.php">
+                                    <div class="form-group">
+                                        <label>Manga Name</label>
+                                        <input name="name" id="manga-name" type="name" class="form-control" placeholder="Enter name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Link to Manga</label>
+                                        <input name="link" id="manga-link" type="link" class="form-control" placeholder="Link">
+                                    </div>
+                                    <label>Chapters Read/Total Chapters</label>
+                                    <div class="row form-group">
+                                        <div class="col-2">
+                                            <input name="completedCptr" id="manga-completed" type="number" class="form-control" placeholder="0">
+                                        </div>
+                                        <p>/</p>
+                                        <div class="col-2">
+                                            <input name="totalCptr" id="manga-total" type="number" class="form-control" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-4">
+                                            <label>Score</label>
+                                            <select name="score" id="manga-score" class="form-control">
+                                                <option selected>Choose...</option>
+                                                <option value="10">10 (Masterpiece)</option>
+                                                <option value="9">9 (Amazing)</option>
+                                                <option value="8">8 (Great)</option>
+                                                <option value="7">7 (Good)</option>
+                                                <option value="6">6 (Decent)</option>
+                                                <option value="5">5 (Tolerable)</option>
+                                                <option value="4">4 (Dislike)</option>
+                                                <option value="3">3 (Bad)</option>
+                                                <option value="2">2 (Awful)</option>
+                                                <option value="1">1 (Dumpster Fire)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Thoughts</label>
+                                        <textarea name="thoughts" id="manga-thoughts" class="form-control" rows="5" id="comment"></textarea>
+                                    </div>
+                                    <hr>
+                                    <button id="manga-submit" type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <table class="table table-striped table-sm table-bordered">
                     <thead class="thead-dark">
                         <tr>
-                            <th style="width: 10%">#</th>
-                            <th style="width: 30%">Name</th>
-                            <th style="width: 6%">Link</th>
+                            <th style="width: 5%">#</th>
+                            <th style="width: 35%">Name</th>
+                            <th style="width: 3%">Link</th>
                             <th style="width: 5%">Progress</th>
                             <th style="width: 3%">+</th>
-                            <th style="width: 5%">Score</th>
-                            <th style="width: 36%">Thoughts</th>
+                            <th style="width: 4%">Score</th>
+                            <th style="width: 40%">Thoughts</th>
                             <th style="width: 5%">Edit</th>
                         </tr>
                     </thead>
@@ -226,14 +321,14 @@
 
                             if(mysqli_num_rows($result) > 0) {
                                 while($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr><th scope=\"row\">" . $row["mangaID"] . "</th>
-                                    <td>" . $row["name"]. "</td>
-                                    <td><a href=\"" . $row["link"] . "\">Link</a></td>
-                                    <td id=\"specalign\">" . $row["completedCptr"] . "/" . $row["totalCptr"] . "</td>
-                                    <td class=\"pluscol\"><button id=\"" . $number . "button\" class=\"plusbutton\">+</button> </td>
-                                    <td id=\"specalign\">" . $row["score"]. "</td>
-                                    <td>" . $row["thoughts"]. "</td>
-                                    <td id=\"editbtn\"><button>Edit</button>
+                                    echo "<tr><th id=\"specalign\" class=\"tableopacity\" scope=\"row\">" . $row["mangaID"] . "</th>
+                                    <td class=\"tableopacity\">" . $row["name"]. "</td>
+                                    <td id=\"specalign\" class=\"tableopacity\"><a href=\"" . $row["link"] . "\">Link</a></td>
+                                    <td id=\"specalign\" class=\"tableopacity\">" . $row["completedCptr"] . "/" . $row["totalCptr"] . "</td>
+                                    <td class=\"pluscol tableopacity\"><button id=\"" . $number . "button\" class=\"btn plusbutton tableopacity\">+</button> </td>
+                                    <td id=\"specalign\" class=\"tableopacity\">" . $row["score"]. "</td>
+                                    <td class=\"tableopacity\">" . $row["thoughts"]. "</td>
+                                    <td id=\"" . $number . "edit\" class=\"tableopacity editbtn\"><button class=\"btn btn-dark\" data-toggle=\"modal\" data-target=\".editmanga\">Edit</button>
                                     </tr>";
 
                                     $number = $number + 1;
@@ -257,9 +352,9 @@
         </div>
     </main>
 
-    <hr>
+    <hr class="listhr">
 
-    <footer class="container">
+    <footer class="container footer">
         <p>&copy; Company 2017-2019</p>
     </footer>
 </body>

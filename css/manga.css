@@ -1,0 +1,73 @@
+/*For manga.php*/
+
+.listhr {
+    width: 80%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-top: 5px solid rgb(0, 0, 0);
+    /*box-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px*/
+}
+
+main {
+    background-color: white;
+}
+
+#mangahd {
+    padding-top: 3rem;
+    color: rgb(0, 0, 0);
+    /*text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;*/
+}
+
+#specialHeader {
+    font-weight: 400;
+}
+
+#contentformat {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 3rem;
+    background-image: url("../assets/mangalistbackground.png");
+    background-size: cover;
+    background-repeat: repeat-y;
+}
+
+#newMangaBtn {
+    width: 10rem;
+    height: 3rem;
+    margin-bottom: 0.5rem;
+    margin-top: 3rem;
+}
+
+.tableopacity {
+    background-color: rgb(255, 255, 255, 0.85);
+}
+
+.pluscol {
+    text-align: center;
+}
+
+.table {
+    margin-bottom: 0.5rem;
+}
+
+.table-bordered th, .table-bordered td {
+    border: 1px solid black;
+}
+
+.table td, .table>tbody>tr>th {
+    vertical-align: middle;
+}
+
+.table>thead>tr>th {
+    text-align: center;
+}
+
+.editbtn {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#specalign {
+    vertical-align: middle;
+    text-align: center;
+}
