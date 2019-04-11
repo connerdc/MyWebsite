@@ -45,20 +45,28 @@
                 });
             });
 
-            $(".editbutton").click(function (event) { 
+            $(".editbtn").click(function (event) { 
                 event.preventDefault();
                 var buttonName = this.id;
                 var parse = buttonName.split("");
                 var number = parse[0];
                 var mangaID = parseInt(number);
+                console.log("im in here");
                 $.ajax({
                     type: "GET",
-                    url: "get_manga.php",
+                    url: "php/get_manga.php",
                     data: { mangaID: mangaID },
-                    dataType: "json",
-                    success: function (response) {
-                        
-                    }
+                    dataType: "application/json",
+                    success: function (data) {
+                        /*response data is currently an array, but the success isn't firing because I think it isn't a JSON array. Need to fix that somehow.*/
+                        console.log("im in here x2");
+                        $("#manga-name").text(Success);
+                    },
+                    error: function (data) {
+                        //console.log(data["name"]);
+                        console.log(data.responseText);
+                        //console.log(data);
+                    }  
                 });
             });
 
@@ -203,7 +211,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form id="editform" method="post" action="php/add_manga.php">
+                                <form id="addform" method="post" action="php/add_manga.php">
                                     <div class="form-group">
                                         <label>Manga Name</label>
                                         <input name="name" id="manga-name" type="name" class="form-control" placeholder="Enter name">
@@ -262,7 +270,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form id="addform" method="post" action="php/edit_manga.php">
+                                <form id="editform" method="post" action="php/edit_manga.php">
                                     <div class="form-group">
                                         <label>Manga Name</label>
                                         <input name="name" id="manga-name" type="name" class="form-control" placeholder="Enter name">
