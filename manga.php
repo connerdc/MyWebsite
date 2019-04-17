@@ -139,28 +139,6 @@
                     }  
                 });
             });
-            /*
-            $("form").submit(function (event) { 
-                event.preventDefault();
-
-                var name = $("#manga-name").val();
-                var link = $("#manga-link").val();
-                var completedCptr = $("#manga-completed").val();
-                var totalCptr = $("#manga-total").val();
-                var score = $("#manga-score").val();
-                var thoughts = $("#manga-thoughts").val();
-                var submit = $("#manga-submit").val();
-
-                $.post("php/add_manga.php", {
-                    name: name,
-                    link: link,
-                    completedCptr: completedCptr,
-                    totalCptr: totalCptr,
-                    score: score,
-                    thoughts: thoughts,
-                    submit: submit 
-                });
-            });*/
         });
     </script>
 </head>
