@@ -26,7 +26,13 @@
                 event.preventDefault();
                 var buttonName = this.id;
                 var parse = buttonName.split("");
+                var increment = 1;
                 var number = parse[0];
+                while(parse[increment] != "b"){
+                    number += parse[increment];
+                    increment++;
+                }                
+                console.log(number);
                 var mangaID = parseInt(number);
                 $.ajax({
                     type: "POST",
@@ -49,23 +55,29 @@
                 event.preventDefault();
                 var buttonName = this.id;
                 var parse = buttonName.split("");
+                var increment = 1;
                 var number = parse[0];
+                while(parse[increment] != "e"){
+                    number += parse[increment];
+                    increment++;
+                }  
                 var mangaID = parseInt(number);
-                console.log("im in here");
                 $.ajax({
                     type: "GET",
                     url: "php/get_manga.php",
                     data: { mangaID: mangaID },
-                    dataType: "application/json",
+                    dataType: "json",
                     success: function (data) {
-                        /*response data is currently an array, but the success isn't firing because I think it isn't a JSON array. Need to fix that somehow.*/
-                        console.log("im in here x2");
-                        $("#manga-name").text(Success);
+                        $("#edit-manga-name").val(data.name);
+                        $("#edit-manga-link").val(data.link);
+                        $("#edit-manga-completed").val(data.completedCptr);
+                        $("#edit-manga-total").val(data.totalCptr);
+                        $("#edit-manga-score").val(data.score);
+                        $("#edit-manga-thoughts").val(data.thoughts);
                     },
                     error: function (data) {
-                        //console.log(data["name"]);
-                        console.log(data.responseText);
-                        //console.log(data);
+                        console.log(data);
+                        alert("Can not edit manga, please try again later!");
                     }  
                 });
             });
@@ -273,26 +285,26 @@
                                 <form id="editform" method="post" action="php/edit_manga.php">
                                     <div class="form-group">
                                         <label>Manga Name</label>
-                                        <input name="name" id="manga-name" type="name" class="form-control" placeholder="Enter name">
+                                        <input name="name" id="edit-manga-name" type="name" class="form-control" placeholder="Enter name">
                                     </div>
                                     <div class="form-group">
                                         <label>Link to Manga</label>
-                                        <input name="link" id="manga-link" type="link" class="form-control" placeholder="Link">
+                                        <input name="link" id="edit-manga-link" type="link" class="form-control" placeholder="Link">
                                     </div>
                                     <label>Chapters Read/Total Chapters</label>
                                     <div class="row form-group">
                                         <div class="col-2">
-                                            <input name="completedCptr" id="manga-completed" type="number" class="form-control" placeholder="0">
+                                            <input name="completedCptr" id="edit-manga-completed" type="number" class="form-control" placeholder="0">
                                         </div>
                                         <p>/</p>
                                         <div class="col-2">
-                                            <input name="totalCptr" id="manga-total" type="number" class="form-control" placeholder="0">
+                                            <input name="totalCptr" id="edit-manga-total" type="number" class="form-control" placeholder="0">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-4">
                                             <label>Score</label>
-                                            <select name="score" id="manga-score" class="form-control">
+                                            <select name="score" id="edit-manga-score" class="form-control">
                                                 <option selected>Choose...</option>
                                                 <option value="10">10 (Masterpiece)</option>
                                                 <option value="9">9 (Amazing)</option>
@@ -309,10 +321,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Thoughts</label>
-                                        <textarea name="thoughts" id="manga-thoughts" class="form-control" rows="5" id="comment"></textarea>
+                                        <textarea name="thoughts" id="edit-manga-thoughts" class="form-control" rows="5" id="comment"></textarea>
                                     </div>
                                     <hr>
-                                    <button id="manga-submit" type="submit" class="btn btn-primary">Submit</button>
+                                    <button id="edit-manga-submit" type="submit" class="btn btn-primary">Submit</button>
                                 </form>
                             </div>
                         </div>
