@@ -1,14 +1,15 @@
 /*For index.html mostly*/
 
 .jumbotron {
-    background-image: url("../assets/backgroundthree.jpg");
+    background-image: url("../assets/lcsfinalslongshot.jpg");
     background-size: cover;
     margin-bottom: 0;
     color: white;
     border-radius: 0;
     border-bottom: 2px solid white;
     border-top: 2px solid white;
-    /*padding: 2rem 0.5rem 1rem 0.5rem;*/
+    padding: 8rem 0.5rem 6rem 0.5rem;
+    text-shadow: 2px 2px 2px black;
 }
 
 .card-group {
