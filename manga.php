@@ -68,6 +68,7 @@
                     data: { mangaID: mangaID },
                     dataType: "json",
                     success: function (data) {
+                        $("#edit-manga-id").val(data.mangaID);
                         $("#edit-manga-name").val(data.name);
                         $("#edit-manga-link").val(data.link);
                         $("#edit-manga-completed").val(data.completedCptr);
@@ -88,12 +89,13 @@
                     type: "POST",
                     url: "php/edit_manga.php",
                     data: {
-                        name: $("#manga-name").val(),
-                        link: $("#manga-link").val(),
-                        completedCptr: $("#manga-completed").val(),
-                        totalCptr: $("#manga-total").val(),
-                        score: $("#manga-score").val(),
-                        thoughts: $("#manga-thoughts").val()
+                        mangaID: $("#edit-manga-id").val(),
+                        name: $("#edit-manga-name").val(),
+                        link: $("#edit-manga-link").val(),
+                        completedCptr: $("#edit-manga-completed").val(),
+                        totalCptr: $("#edit-manga-total").val(),
+                        score: $("#edit-manga-score").val(),
+                        thoughts: $("#edit-manga-thoughts").val()
                     },
                     success: function (response) {
                         $(function () {
@@ -104,6 +106,7 @@
                         }, 100);
                     },
                     error: function(response) {
+                        console.log("we failed boyz");
                         alert(response);
                     }  
                 });
@@ -283,6 +286,7 @@
                             </div>
                             <div class="modal-body">
                                 <form id="editform" method="post" action="php/edit_manga.php">
+                                    <label id="edit-manga-id" hidden></label>
                                     <div class="form-group">
                                         <label>Manga Name</label>
                                         <input name="name" id="edit-manga-name" type="name" class="form-control" placeholder="Enter name">

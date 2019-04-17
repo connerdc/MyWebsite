@@ -12,7 +12,7 @@
 
         //$data = ["name" => $row["name"], "link" => $row["link"], "completedCptr" => $row["completedCptr"], "totalCptr" => $row["totalCptr"], "score" => $row["score"], "thoughts" => $row["thoughts"] ];
 
-        $data = ["name" => $row["name"], "link" => $row["link"], "completedCptr" => $row["completedCptr"], "totalCptr" => $row["totalCptr"], "score" => $row["score"], "thoughts" => $row["thoughts"] ];
+        $data = ["mangaID" => $mangaID, "name" => $row["name"], "link" => $row["link"], "completedCptr" => $row["completedCptr"], "totalCptr" => $row["totalCptr"], "score" => $row["score"], "thoughts" => $row["thoughts"] ];
     }
 
     header("Content-type:application/json;charset=utf-8");
