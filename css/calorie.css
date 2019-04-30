@@ -1,0 +1,51 @@
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    width: 12%;
+    position: fixed;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: rgb(15, 28, 82);
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebar hr {
+    border: 3px solid white;
+    width: 90%;
+}
+
+#content {
+    width: 88%;
+    margin-left: 12%;
+}
+
+.sidebar-header {
+    padding: 1rem 1rem 0 1rem;
+    padding-top: 3rem;
+    padding-bottom: 1.5rem;
+    background-color: rgb(21, 37, 100);;
+    width: 100%;
+}
+
+.list-group {
+    border-radius: 0;
+}
+
+.list-group-item {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    font-weight: 700;
+    font-size: 1.25rem;
+    background-color: rgb(15, 28, 82);
+    color: white;
+}
+
+.footer {
+    margin-left: 24%;
+}
