@@ -1,18 +1,16 @@
 <?php
-    include "manga_db.php";
+    include "calorie_db.php";
     $conn = OpenCon();
 
-    $mangaID = $_GET["mangaID"];
-
-    $sql = "SELECT * FROM `manga` where `mangaID`= $mangaID";
+    $sql = "SELECT `dayDate` FROM `dayoffood` ORDER BY `dayDate` DESC LIMIT 1";
     $result = mysqli_query($conn, $sql);
 
     if(mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
 
         //$data = ["name" => $row["name"], "link" => $row["link"], "completedCptr" => $row["completedCptr"], "totalCptr" => $row["totalCptr"], "score" => $row["score"], "thoughts" => $row["thoughts"] ];
-
-        $data = ["mangaID" => $mangaID, "name" => $row["name"], "link" => $row["link"], "completedCptr" => $row["completedCptr"], "totalCptr" => $row["totalCptr"], "score" => $row["score"], "status" => $row["status"], "thoughts" => $row["thoughts"] ];
+        
+        $data = ["dayDate" => $row["dayDate"]];
     }
 
     header("Content-type:application/json;charset=utf-8");

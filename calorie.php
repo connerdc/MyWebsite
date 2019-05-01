@@ -1,6 +1,11 @@
 <!doctype html>
-
 <html lang="en">
+
+<?php
+    include 'php/calorie_db.php';
+    $conn = OpenCon();
+?>
+
 <head>
     <meta charset="utf-8">
 
@@ -11,12 +16,45 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/calorie.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            var d = new Date();
+            var ymdDateStr = (d.getFullYear()) + "-" + (d.getMonth()+1) + "-" + d.getDate();
+            var currDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+            console.log(currDate);
+
+            $.ajax({
+                    type: "GET",
+                    url: "php/get_daydate.php",
+                    dataType: "json",
+                    success: function (data) {
+                        var dStringArray = data.dayDate.toString().split(/[- :]/);
+                        var dDate = new Date(dStringArray[0], (dStringArray[1]-1), dStringArray[2]);
+                        console.log(dDate);
+
+                        if(currDate.valueOf() > dDate.valueOf()) {
+                            $("#dayHeader").text(currDate);
+                            console.log("Current Day >");
+                        } else {
+                            $("#dayHeader").text(dDate);
+                            console.log("Database Day >=");
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                        alert("Can not load day.");
+                    }  
+            });
+        });
+    </script>
 
 </head>
 
@@ -72,10 +110,10 @@
             <hr>
 
             <div class="list-group">
-                <button type="button" class="list-group-item list-group-item-action">Log Day</button>
-                <button type="button" class="list-group-item list-group-item-action">View Week</button>
-                <button type="button" class="list-group-item list-group-item-action">View Diet</button>
-                <button type="button" class="list-group-item list-group-item-action">View Archive</button>
+                <button name="currentDayBtn" type="button" class="list-group-item list-group-item-action">Current Day</button>
+                <button name="last7Btn" type="button" class="list-group-item list-group-item-action">View Last 7 Days</button>
+                <button name="viewDietBtn" type="button" class="list-group-item list-group-item-action">View Diet</button>
+                <button name="viewArchiveBtn" type="button" class="list-group-item list-group-item-action">View Archive</button>
             </div>
 
             <!--
@@ -123,7 +161,9 @@
         <!-- Page Content -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <h1 id="dayHeader">Today's Food Tracking</h1>
+
+            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="btn btn-info">
@@ -131,7 +171,7 @@
                         <span>Toggle Sidebar</span>
                     </button>
                 </div>
-            </nav>
+            </nav> -->
             
         </div>
     </div>

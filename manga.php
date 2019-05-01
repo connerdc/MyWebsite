@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <?php
-    include 'php/db_connection.php';
+    include 'php/manga_db.php';
     $conn = OpenCon();
 ?>
 

@@ -1,5 +1,5 @@
 <?php
-    include 'db_connection.php';
+    include 'manga_db.php';
     $conn = OpenCon();
 
     $name = $_POST["name"];
