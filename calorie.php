@@ -41,11 +41,9 @@
                         console.log(dDate);
 
                         if(currDate.valueOf() > dDate.valueOf()) {
-                            $("#dayHeader").text(currDate);
-                            console.log("Current Day >");
+                            //console.log("Current Day >");
                         } else {
-                            $("#dayHeader").text(dDate);
-                            console.log("Database Day >=");
+                            $("#cDayCardSubText").text(dDate);
                         }
                     },
                     error: function (data) {
@@ -161,18 +159,25 @@
         <!-- Page Content -->
         <div id="content">
 
-            <h1 id="dayHeader">Today's Food Tracking</h1>
-
-            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-left"></i>
-                        <span>Toggle Sidebar</span>
-                    </button>
+            <div class="container">
+                <div class="row">
+                    <div class="card dayCard">
+                        <div class="card-body">
+                            <h3 class="card-title">Today's Food Tracker</h5>
+                            <h5 id="cDayCardSubText" class="card-subtitle mb-2 text-muted"></h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                    <!-- <div class="card" style="width: 50%;">
+                        <div class="card-body">
+                            <h3 class="card-title">Today's Food Tracker</h5>
+                            <h5 id="cDayCardSubText" class="card-subtitle mb-2 text-muted"></h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div> -->
                 </div>
-            </nav> -->
-            
+            </div>
+
         </div>
     </div>
     <hr>

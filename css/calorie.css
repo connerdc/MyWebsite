@@ -1,3 +1,7 @@
+.container {
+    max-width: 100%;
+}
+
 .wrapper {
     display: flex;
     width: 100%;
@@ -23,6 +27,10 @@
     width: 87%;
     margin-left: 13%;
     padding: 1rem 1rem 1rem 1rem;
+}
+
+.dayCard {
+    width: 100%;
 }
 
 .sidebar-header {
