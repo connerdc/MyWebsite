@@ -29,7 +29,6 @@
             var d = new Date();
             var ymdDateStr = (d.getFullYear()) + "-" + (d.getMonth()+1) + "-" + d.getDate();
             var currDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-            console.log(currDate);
 
             $.ajax({
                     type: "GET",
@@ -41,7 +40,9 @@
                         console.log(dDate);
 
                         if(currDate.valueOf() > dDate.valueOf()) {
-                            //console.log("Current Day >");
+                            /* $("#content").html(
+                                ""
+                            ); */
                         } else {
                             $("#cDayCardSubText").text(dDate);
                         }
@@ -159,7 +160,27 @@
         <!-- Page Content -->
         <div id="content">
 
-            <div class="container">
+            <h1 class="display-4">Add Meals to Today</h1>
+            <hr class="my-4">
+            <form action="POST" action="add_mealDay">
+                <div class="form-group">
+                    <label>Manga Name</label>
+                    <input name="name" id="edit-manga-name" type="name" class="form-control" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label>Link to Manga</label>
+                    <input name="link" id="edit-manga-link" type="link" class="form-control" placeholder="Link">
+                </div>
+            </form>
+
+            <!-- How it should look when coming to current day page and database entries don't match day
+                <div class="jumbotron">
+                <h1 class="display-4">Add today to your meal history!</h1>
+                <hr class="my-4">
+                <button id="addMealDayBtn" class="btn btn-primary btn-lg">Add Meals to Today</button>
+            </div> -->
+
+            <!-- <div class="container">
                 <div class="row">
                     <div class="card dayCard">
                         <div class="card-body">
@@ -168,15 +189,15 @@
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                     </div>
-                    <!-- <div class="card" style="width: 50%;">
+                    <div class="card" style="width: 50%;">
                         <div class="card-body">
                             <h3 class="card-title">Today's Food Tracker</h5>
                             <h5 id="cDayCardSubText" class="card-subtitle mb-2 text-muted"></h6>
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
-                    </div> -->
+                    </div> 
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </div>

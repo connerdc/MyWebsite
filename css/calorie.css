@@ -29,6 +29,10 @@
     padding: 1rem 1rem 1rem 1rem;
 }
 
+.jumbotron {
+    text-align: center;
+}
+
 .dayCard {
     width: 100%;
 }
