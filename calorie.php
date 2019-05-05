@@ -52,6 +52,22 @@
                         alert("Can not load day.");
                     }  
             });
+
+            var mealID
+
+            //do this next, add html to below meal list
+            $("#add-another-meal").click(function (e) { 
+                e.preventDefault();
+                var mealList = document.getElementById("meal-list");
+                var currentButton = document.getElementById("add-another-meal");
+                var inputElement = document.createElement("input");
+                inputElement.setAttribute('id', 'add-meal-food');
+                inputElement.setAttribute('class', 'form-control');
+                inputElement.setAttribute('name', 'name');
+                inputElement.setAttribute('type', 'name');
+                inputElement.setAttribute('placeholder', 'Cheeseburgers w/Fries, Pizza, etc');
+                mealList.insertBefore(inputElement, currentButton);
+            });
         });
     </script>
 
@@ -163,14 +179,24 @@
             <h1 class="display-4">Add Meals to Today</h1>
             <hr class="my-4">
             <form action="POST" action="add_mealDay">
-                <div class="form-group">
-                    <label>Manga Name</label>
-                    <input name="name" id="edit-manga-name" type="name" class="form-control" placeholder="Enter name">
+                <div id="meal-list" class="form-group">
+                    <label>Food Eaten</label>
+                    <input id="add-meal-food" class="form-control" name="name" type="name" placeholder="Cheeseburgers w/Fries, Pizza, etc">
+                    <button id="add-another-meal" type="button" class="buttons btn btn-sm">+ Add Another Meal</button>
                 </div>
                 <div class="form-group">
-                    <label>Link to Manga</label>
-                    <input name="link" id="edit-manga-link" type="link" class="form-control" placeholder="Link">
+                    <label>Calories in Meal</label>
+                    <input name="link" id="add-meal-calories" type="number" class="form-control" placeholder="0">
                 </div>
+                <div class="form-group">
+                    <label>Fat in Meal</label>
+                    <input name="link" id="add-meal-fat" type="number" class="form-control" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label>Notes About Meal</label>
+                    <input name="name" id="add-meal-notes" type="text" class="form-control" placeholder="Write anything extra here if need be.">
+                </div>
+                <button id="add-meal-submit" type="submit" class="btn btn-lg buttons">Submit</button>
             </form>
 
             <!-- How it should look when coming to current day page and database entries don't match day
@@ -180,7 +206,8 @@
                 <button id="addMealDayBtn" class="btn btn-primary btn-lg">Add Meals to Today</button>
             </div> -->
 
-            <!-- <div class="container">
+            <!-- Displaying multiple days in last 7 days tab
+            <div class="container">
                 <div class="row">
                     <div class="card dayCard">
                         <div class="card-body">

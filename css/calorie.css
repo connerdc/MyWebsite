@@ -45,6 +45,14 @@
     width: 100%;
 }
 
+.form-control {
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    width: 50%;
+}
+
 .list-group {
     border-radius: 0;
 }
@@ -55,6 +63,11 @@
     border: 0;
     font-weight: 600;
     font-size: 1.25rem;
+    background-color: rgb(15, 28, 82);
+    color: white;
+}
+
+.buttons {
     background-color: rgb(15, 28, 82);
     color: white;
 }
