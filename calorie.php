@@ -38,6 +38,7 @@
             var currDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
             var insertDate = (d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear());
             var americanDate = ((d.getMonth()+1) + "-" + d.getDate() + "-" + d.getFullYear());
+            //below ajax call checks if current date is in the database, if it is then will display current day tab. If not I'll keep jumbotron up with current day progress.
             $.ajax({
                     type: "GET",
                     url: "php/get_dayinfo.php",
@@ -71,6 +72,7 @@
                     }  
             });
 
+            //clicking current day button in sidebar
             $("#currentDayBtn").click(function (e) { 
                 e.preventDefault();
                 $('.jumbotron').attr('hidden', true);
@@ -88,6 +90,7 @@
                 }
             });
 
+            //clicking last 7 days button in sidebar
             $("#last7Btn").click(function (e) { 
                 e.preventDefault();
                 $.ajax({
@@ -103,6 +106,8 @@
 
                             var totalCaloriesDay = 0;
 
+                            //this for loop adds the cards into the stack of cards showing the last 7 days of food recorded. 
+                            //data[i][0][mealLength] refers to a json object passed back that goes like this Day => array of meal objects => meal object array. From there you can access various properties of that meal.
                             for(var mealLength = 0; mealLength < data[i][0].length; mealLength++) {
                                 newDayHTML += '<h5 class="card-text">Meal ' + (mealLength+1) + ': </h5\><p class="card-text">Food Eaten: ' + data[i][0][mealLength].foodEaten + ' </p\><p class="card-text">Calories: ' + data[i][0][mealLength].calories + ' </p\><p class="card-text">Fat Content: ' + data[i][0][mealLength].fatContent + ' grams </p\><p class="card-text">Location: ' + data[i][0][mealLength].location + ' </p\><p class="card-text">Notes: ' + data[i][0][mealLength].notes + ' </p\>';
                                 totalCaloriesDay += Number(data[i][0][mealLength].calories);
@@ -113,6 +118,7 @@
 
                             $("#" + (i+1) + "dayWeekCBody").append(newDayHTML);
                         }
+                        //hide day cards if not used
                         for (var i = (7-data.count); i < 8; i++) {
                             $("#" + i + "card").attr('hidden', true);           
                         }
@@ -157,6 +163,7 @@
                 $('#addAnotherMeal').removeAttr('hidden');
             });
 
+            //form submit after clicked by button on jumbotron, is slightly different than adding another meal because we also have to add the date.
             $("#addDay").submit(function (event) {
                 event.preventDefault();
                 $.ajax({
@@ -186,6 +193,7 @@
                 });
             });
 
+            //form submit after clicking "add meal to today" button in current day
             $("#addAnotherMealForm").submit(function (event) {
                 event.preventDefault();
                 $.ajax({
@@ -282,7 +290,6 @@
                     <div id="meal-list" class="form-group">
                         <h5>Food Eaten</h5>
                         <input id="add-meal-food" class="form-control" name="name" type="name" placeholder="Cheeseburgers w/Fries, Pizza, etc">
-                        <!--<button id="add-another-meal" type="button" class="buttons btn btn-sm">+ Add Another Meal</button>-->
                     </div>
                     <div class="form-group">
                         <h5>Calories in Meal</h5>
@@ -384,7 +391,7 @@
     <hr>
 
         <footer class="container footer">
-            <p>&copy; Company 2017-2019</p>
+            <p>&copy; Conner Christopherson 2019</p>
         </footer>
     </main>
 

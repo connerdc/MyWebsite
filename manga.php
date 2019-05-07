@@ -498,7 +498,7 @@
     <hr class="listhr">
 
     <footer class="container footer">
-        <p>&copy; Company 2017-2019</p>
+        <p>&copy; Conner Christopherson 2019</p>
     </footer>
 </body>
 </html>

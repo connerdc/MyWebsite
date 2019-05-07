@@ -1,4 +1,6 @@
 <?php
+    //basically we already know the current date is in the database if we call this php file, so we get the most recent date and insert a meal to that date's ID
+
     include 'calorie_db.php';
     $conn = OpenCon();
 
@@ -7,8 +9,6 @@
     $fat = $_POST["fat"];
     $location = $_POST["location"];
     $notes = $_POST["notes"];
-
-    echo $foodEaten . $calories . $fat . $location . $notes;
 
     $daysql = "SELECT `dayID` FROM `dayoffood` ORDER BY `dayDate` DESC LIMIT 1";
     $result = mysqli_query($conn, $daysql);

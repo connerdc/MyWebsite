@@ -1,4 +1,6 @@
 <?php
+    //This will return current day information along with meal data for current day. Might wanna clean up array stuff in here to be more like get_mealweek
+
     include "calorie_db.php";
     $conn = OpenCon();
 
