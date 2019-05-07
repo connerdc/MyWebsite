@@ -28,6 +28,7 @@
 
         /*
             Things to do:
+            1. Remove hidden from last 7 day cards not used on button click
         */
 
         $(document).ready(function () {
@@ -42,7 +43,6 @@
                     url: "php/get_dayinfo.php",
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
                         var dStringArray = data.dayDate.toString().split(/[- :]/);
                         var dDate = new Date(dStringArray[0], (dStringArray[1]-1), dStringArray[2]);
 
@@ -51,13 +51,18 @@
                             $('.jumbotron').attr('hidden', true);
                             $('#displayToday').removeAttr('hidden');
                             $('#todayFoodTrackTitle').text("Today\'s (" + americanDate + ") Food Tracker");
+
+                            var caloriesOnDay = 0;
+
                             for(var i = 1; i<(data.mealCount+1); i++) {
                                 var meal = i + "meal";
                                 var newMealHTML = '<hr\><h5 class="card-text">Meal ' + i + ': </h5\><p class="card-text">Food Eaten: ' + data[meal].foodEaten + ' </p\><p class="card-text">Calories: ' + data[meal].calories + ' </p\><p class="card-text">Fat Content: ' + data[meal].fat + ' grams </p\><p class="card-text">Location: ' + data[meal].location + ' </p\><p class="card-text">Notes: ' + data[meal].notes + ' </p\>';
                                 $("#currDayCardBody").append(newMealHTML);
+
+                                caloriesOnDay += Number(data[meal].calories);
                             }
-                        } else {
-                            
+                            var caloriesHTML = '<hr><p class="card-text">Calories Eaten Today: ' + caloriesOnDay + '</p>';
+                            $("#currDayCardBody").append(caloriesHTML);
                         }
                     },
                     error: function (data) {
@@ -66,6 +71,79 @@
                     }  
             });
 
+            $("#currentDayBtn").click(function (e) { 
+                e.preventDefault();
+                $('.jumbotron').attr('hidden', true);
+                $("#addMealForm").attr('hidden', true);
+                $("#addAnotherMeal").attr('hidden', true);
+                $("#displayWeek").attr('hidden', true);
+                $("#last7Btn").removeAttr('disabled');
+                for(var i=0; i<7; i++) {
+                    $("#" + (i+1) + "dayWeekCBody").html("");
+                }
+
+                var attr = $("#displayToday").attr('hidden');
+                if (typeof attr !== typeof undefined && attr !== false) {
+                    $("#displayToday").removeAttr('hidden');
+                }
+            });
+
+            $("#last7Btn").click(function (e) { 
+                e.preventDefault();
+                $.ajax({
+                    type: "GET",
+                    url: "php/get_mealweek.php",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        for(var i = 0; i<data.count; i++) {
+                            var newDayHTML = "";
+                            var titleHTML = '<h3 class="card-title">' + data[i].dayDate + '\'s Meals</h5><hr>';
+                            newDayHTML += titleHTML;
+
+                            var totalCaloriesDay = 0;
+
+                            for(var mealLength = 0; mealLength < data[i][0].length; mealLength++) {
+                                newDayHTML += '<h5 class="card-text">Meal ' + (mealLength+1) + ': </h5\><p class="card-text">Food Eaten: ' + data[i][0][mealLength].foodEaten + ' </p\><p class="card-text">Calories: ' + data[i][0][mealLength].calories + ' </p\><p class="card-text">Fat Content: ' + data[i][0][mealLength].fatContent + ' grams </p\><p class="card-text">Location: ' + data[i][0][mealLength].location + ' </p\><p class="card-text">Notes: ' + data[i][0][mealLength].notes + ' </p\>';
+                                totalCaloriesDay += Number(data[i][0][mealLength].calories);
+                            }
+
+                            var caloriesHTML = '<hr><p class="card-text">Calories Eaten Today: ' + totalCaloriesDay + '</p>';
+                            newDayHTML += caloriesHTML;
+
+                            $("#" + (i+1) + "dayWeekCBody").append(newDayHTML);
+                        }
+                        for (var i = (7-data.count); i < 8; i++) {
+                            $("#" + i + "card").attr('hidden', true);           
+                        }
+                    },
+                    error: function (data) {
+                        alert("Can not load week.");
+                        console.log(data);
+                    }  
+                });
+                $('.jumbotron').attr('hidden', true);
+                $("#addMealForm").attr('hidden', true);
+                $("#addAnotherMeal").attr('hidden', true);
+                $("#displayToday").attr('hidden', true);
+                $("#last7Btn").attr('disabled', true);
+                
+                var attr = $("#displayWeek").attr('hidden');
+                if (typeof attr !== typeof undefined && attr !== false) {
+                    $("#displayWeek").removeAttr('hidden');
+                }
+            });
+
+            /*For View Diet and View Archive
+            $(selector).click(function (e) { 
+                e.preventDefault();
+                
+            });
+
+            $(selector).click(function (e) { 
+                e.preventDefault();
+                
+            });*/
 
             $("#addMealDayBtn").click(function (e) { 
                 e.preventDefault();
@@ -164,20 +242,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Settings</a>
                 </li>
-                <!--
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-                </li> -->
             </ul>
-            <!-- <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form> -->
         </div>
     </nav>
 
@@ -192,52 +257,11 @@
             <hr>
 
             <div class="list-group">
-                <button name="currentDayBtn" type="button" class="list-group-item list-group-item-action">Current Day</button>
-                <button name="last7Btn" type="button" class="list-group-item list-group-item-action">View Last 7 Days</button>
-                <button name="viewDietBtn" type="button" class="list-group-item list-group-item-action">View Diet</button>
-                <button name="viewArchiveBtn" type="button" class="list-group-item list-group-item-action">View Archive</button>
+                <button id="currentDayBtn" type="button" class="list-group-item list-group-item-action">Current Day</button>
+                <button id="last7Btn" type="button" class="list-group-item list-group-item-action">View Last 7 Days Recorded</button>
+                <button id="viewDietBtn" type="button" class="list-group-item list-group-item-action">View Diet</button>
+                <button id="viewArchiveBtn" type="button" class="list-group-item list-group-item-action" >View Archive</button>
             </div>
-
-            <!--
-            <ul class="list-unstyled components">
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-            </ul> -->
 
         </nav>
         <!-- Page Content -->
@@ -321,21 +345,37 @@
 
             <!-- Displaying multiple days in last 7 days tab-->
             <div id="displayWeek" class="container" hidden>
-                <div class="row">
-                    <div class="card dayCard">
-                        <div class="card-body">
-                            <h3 class="card-title">Today's Food Tracker</h5>
-                            <h5 id="cDayCardSubText" class="card-subtitle mb-2 text-muted"></h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h1 class="display-3">Last 7 Days</h1>
+                <hr>
+                <div id="7days">
+                    <div id="1card" class="card dayCard">
+                        <div id="1dayWeekCBody" class="card-body">
                         </div>
                     </div>
-                    <div class="card" style="width: 50%;">
-                        <div class="card-body">
-                            <h3 class="card-title">Today's Food Tracker</h5>
-                            <h5 id="cDayCardSubText" class="card-subtitle mb-2 text-muted"></h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div id="2card" class="card dayCard">
+                        <div id="2dayWeekCBody" class="card-body">
                         </div>
                     </div> 
+                    <div id="3card" class="card dayCard">
+                        <div id="3dayWeekCBody" class="card-body">
+                        </div>
+                    </div>
+                    <div id="4card" class="card dayCard">
+                        <div id="4dayWeekCBody" class="card-body">
+                        </div>
+                    </div>
+                    <div id="5card" class="card dayCard">
+                        <div id="5dayWeekCBody" class="card-body">
+                        </div>
+                    </div>
+                    <div id="6card" class="card dayCard">
+                        <div id="6dayWeekCBody" class="card-body">
+                        </div>
+                    </div>
+                    <div id="7card" class="card dayCard">
+                        <div id="7dayWeekCBody" class="card-body">
+                        </div>
+                    </div>
                 </div>
             </div> 
 
