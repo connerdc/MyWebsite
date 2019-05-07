@@ -5,17 +5,15 @@
     $foodEaten = $_POST["foodEaten"];
     $calories = $_POST["calories"];
     $fat = $_POST["fat"];
-
-    $inputDate = $_POST["currDate"];
-    $currDate=date("Y-m-d H:i:s",strtotime($inputDate));
-
     $location = $_POST["location"];
     $notes = $_POST["notes"];
 
-    $daySQL = "INSERT INTO `dayoffood` (`dayID`, `dayDate`) VALUES (DEFAULT, '".$currDate."')";
-    mysqli_query($conn, $daySQL);
+    echo $foodEaten . $calories . $fat . $location . $notes;
 
-    $dayID = mysqli_insert_id($conn);
+    $daysql = "SELECT `dayID` FROM `dayoffood` ORDER BY `dayDate` DESC LIMIT 1";
+    $result = mysqli_query($conn, $daysql);
+    $row = mysqli_fetch_assoc($result);
+    $dayID = $row["dayID"];
 
     $mealSQL = "INSERT INTO `meal`(`mealID`, `calories`, `fatContent`, `foodEaten`, `location`, `notes`, `Fk_dayID`) 
                 VALUES (DEFAULT, ".$calories.", ".$fat.", '".$foodEaten."', '".$location."', '".$notes."', ".$dayID.")";

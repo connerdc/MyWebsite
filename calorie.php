@@ -28,57 +28,44 @@
 
         /*
             Things to do:
-                1. Double insert in add_mealday doesn't work, try it formatted like this: https://stackoverflow.com/questions/4565195/mysql-how-to-insert-into-multiple-tables-with-foreign-keys
         */
 
         $(document).ready(function () {
-            var nextDayID;
 
             var d = new Date();
             var ymdDateStr = (d.getFullYear()) + "-" + (d.getMonth()+1) + "-" + d.getDate();
             var currDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-            var insertDate = (d.getMonth()+1) + "-" + d.getDate() + "-" + d.getFullYear();
+            var insertDate = (d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear());
+            var americanDate = ((d.getMonth()+1) + "-" + d.getDate() + "-" + d.getFullYear());
             $.ajax({
                     type: "GET",
-                    url: "php/get_daydate.php",
+                    url: "php/get_dayinfo.php",
                     dataType: "json",
                     success: function (data) {
+                        console.log(data);
                         var dStringArray = data.dayDate.toString().split(/[- :]/);
                         var dDate = new Date(dStringArray[0], (dStringArray[1]-1), dStringArray[2]);
 
-                        if(currDate.valueOf() > dDate.valueOf()) {
-                            // How it should look when coming to current day page and database entries don't match day
-                            nextDayID = (Number(data.dayID)+1);
-                            console.log(nextDayID);
-                        } else {
-                            //if database entry does match current day, show current day on landing page
-                            nextDayID = data.dayID;
-                            console.log(nextDayID);
+                        if(!(currDate.valueOf() > dDate.valueOf())) {
+                            //how it displays if current day is the same as the most recent database entry
                             $('.jumbotron').attr('hidden', true);
                             $('#displayToday').removeAttr('hidden');
+                            $('#todayFoodTrackTitle').text("Today\'s (" + americanDate + ") Food Tracker");
+                            for(var i = 1; i<(data.mealCount+1); i++) {
+                                var meal = i + "meal";
+                                var newMealHTML = '<hr\><h5 class="card-text">Meal ' + i + ': </h5\><p class="card-text">Food Eaten: ' + data[meal].foodEaten + ' </p\><p class="card-text">Calories: ' + data[meal].calories + ' </p\><p class="card-text">Fat Content: ' + data[meal].fat + ' grams </p\><p class="card-text">Location: ' + data[meal].location + ' </p\><p class="card-text">Notes: ' + data[meal].notes + ' </p\>';
+                                $("#currDayCardBody").append(newMealHTML);
+                            }
+                        } else {
+                            
                         }
                     },
                     error: function (data) {
                         alert("Can not load day.");
+                        console.log(data);
                     }  
             });
 
-            //var mealCount = 1;
-
-            /*not used because I'm dumb
-            $("#add-another-meal").click(function (e) { 
-                e.preventDefault();
-                mealCount++;
-                var mealList = document.getElementById("meal-list");
-                var currentButton = document.getElementById("add-another-meal");
-                var inputElement = document.createElement("input");
-                inputElement.setAttribute('id', 'add-meal-food-' + mealCount);
-                inputElement.setAttribute('class', 'form-control');
-                inputElement.setAttribute('name', 'name');
-                inputElement.setAttribute('type', 'name');
-                inputElement.setAttribute('placeholder', 'Cheeseburgers w/Fries, Pizza, etc');
-                mealList.insertBefore(inputElement, currentButton);
-            });*/
 
             $("#addMealDayBtn").click(function (e) { 
                 e.preventDefault();
@@ -86,13 +73,19 @@
                 $('#addMealForm').removeAttr('hidden');
             });
 
+            $("#add-meal-to-today").click(function (e) { 
+                e.preventDefault();
+                $("#displayToday").attr('hidden', true);
+                $('#addAnotherMeal').removeAttr('hidden');
+            });
+
             $("#addDay").submit(function (event) {
                 event.preventDefault();
                 $.ajax({
                     type: "POST",
                     url: "php/add_mealday.php",
+                    datatype: "html",
                     data: {
-                        nextDayID: nextDayID, 
                         foodEaten: $("#add-meal-food").val(),
                         calories: $("#add-meal-calories").val(),
                         fat: $("#add-meal-fat").val(),
@@ -102,14 +95,42 @@
                     },
                     success: function (response) {
                         $(function () {
-                            console.log("Success!");
+                            console.log(response);
                         });
                         setTimeout(function(){
                             location.reload();
-                        }, 10000);
+                        }, 1000);
                     },
                     error: function(response) {
-                        console.log("we failed boyz");
+                        console.log("Could not insert meal/day.");
+                        alert(response);
+                    }  
+                });
+            });
+
+            $("#addAnotherMealForm").submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "php/add_anothermeal.php",
+                    datatype: "html",
+                    data: {
+                        foodEaten: $("#addAnr-meal-food").val(),
+                        calories: $("#addAnr-meal-calories").val(),
+                        fat: $("#addAnr-meal-fat").val(),
+                        location: $("#addAnr-meal-location").val(),
+                        notes: $("#addAnr-meal-notes").val()
+                    },
+                    success: function (response) {
+                        $(function () {
+                            console.log(response);
+                        });
+                        setTimeout(function(){
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function(response) {
+                        console.log("Could not insert meal/day.");
                         alert(response);
                     }  
                 });
@@ -229,11 +250,11 @@
                 <button id="addMealDayBtn" class="btn btn-primary btn-lg">Add Meals to Today</button>
             </div>
 
-            <!-- Add Meal to Today Form -->
+            <!-- Add First Meal to Today Form -->
             <div id="addMealForm" hidden>
-                <h1 class="display-3">Add a Meal to Today</h1>
+                <h1 class="display-3">Add First Meal to Today</h1>
                 <hr class="my-4">
-                <form id="addDay" action="POST" action="add_mealDay" disabled>
+                <form id="addDay" action="POST" action="add_mealDay.php">
                     <div id="meal-list" class="form-group">
                         <h5>Food Eaten</h5>
                         <input id="add-meal-food" class="form-control" name="name" type="name" placeholder="Cheeseburgers w/Fries, Pizza, etc">
@@ -259,13 +280,41 @@
                 </form>
             </div>
 
+            <!-- Add Meal to Today Form -->
+            <div id="addAnotherMeal" hidden>
+                <h1 class="display-3">Add Another Meal to Today</h1>
+                <hr class="my-4">
+                <form id="addAnotherMealForm" action="POST" action="add_anothermeal.php">
+                    <div id="meal-list" class="form-group">
+                        <h5>Food Eaten</h5>
+                        <input id="addAnr-meal-food" class="form-control" name="name" type="name" placeholder="Cheeseburgers w/Fries, Pizza, etc">
+                    </div>
+                    <div class="form-group">
+                        <h5>Calories in Meal</h5>
+                        <input name="link" id="addAnr-meal-calories" type="number" class="form-control" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <h5>Fat in Meal</h5>
+                        <input name="link" id="addAnr-meal-fat" type="number" class="form-control" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <h5>Location Eaten</h5>
+                        <input name="name" id="addAnr-meal-location" type="text" class="form-control" placeholder="Write where you ate the meal.">
+                    </div>
+                    <div class="form-group">
+                        <h5>Notes About Meal</h5>
+                        <input name="name" id="addAnr-meal-notes" type="text" class="form-control" placeholder="Write anything extra here if need be.">
+                    </div>
+                    <button id="add-another-meal-submit" type="submit" class="btn btn-lg buttons">Submit</button>
+                </form>
+            </div>
+
             <!-- Display today -->
             <div id="displayToday" class="container" hidden>
+                <button id="add-meal-to-today" type="button" class="btn btn-lg buttons">Add Meal to Today</button>
                 <div class="card dayCard">
-                    <div class="card-body">
-                        <h3 class="card-title">Today's Food Tracker</h5>
-                        <h5 id="cDayCardSubText" class="card-subtitle mb-2 text-muted"></h6>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div id="currDayCardBody" class="card-body">
+                        <h3 id="todayFoodTrackTitle" class="card-title">Today's Meals</h5>
                     </div>
                 </div>
             </div> 
